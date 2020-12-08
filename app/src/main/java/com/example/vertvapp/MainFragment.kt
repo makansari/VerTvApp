@@ -1,17 +1,20 @@
 package com.example.vertvapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 
-class MainFragment : BrowseSupportFragment() {
+class MainFragment : BrowseSupportFragment(), OnItemViewClickedListener {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        setOnItemViewClickedListener(this)
         setUi()
         loadRows()
     }
@@ -26,9 +29,18 @@ class MainFragment : BrowseSupportFragment() {
         adapterForRow1.add(SingleRowViewData("MOVIE THREE", context?.resources!!.getDrawable(R.drawable.sce3)))
         adapterForRow1.add(SingleRowViewData("MOVIE FOUR", context?.resources!!.getDrawable(R.drawable.sce4)))
 
-        var adpForWindow = ArrayObjectAdapter(ListRowPresenter())
-        adpForWindow.add(ListRow(cat1,adapterForRow1))
-        adapter = adpForWindow
+        var adapterForRow2 = ArrayObjectAdapter(MyPresentClass())
+        adapterForRow2.add(SingleRowViewData("Mera naam", context?.resources!!.getDrawable(R.drawable.sce1)))
+        adapterForRow2.add(SingleRowViewData("Anamika", context?.resources!!.getDrawable(R.drawable.sce3)))
+        adapterForRow2.add(SingleRowViewData("SpiderMan", context?.resources!!.getDrawable(R.drawable.sce3)))
+        adapterForRow2.add(SingleRowViewData("IronMan", context?.resources!!.getDrawable(R.drawable.sce1)))
+        adapterForRow2.add(SingleRowViewData("SuperMna", context?.resources!!.getDrawable(R.drawable.abc)))
+        adapterForRow2.add(SingleRowViewData("SpiderMan", context?.resources!!.getDrawable(R.drawable.sce1)))
+        var adapterForWindow1 = ArrayObjectAdapter(ListRowPresenter())
+
+        adapterForWindow1.add(ListRow(cat1,adapterForRow1))
+        adapterForWindow1.add(ListRow(cat2,adapterForRow2))
+        adapter = adapterForWindow1
     }
 
     private fun setUi() {
@@ -36,6 +48,20 @@ class MainFragment : BrowseSupportFragment() {
         title = "LG"
         headersState = HEADERS_ENABLED
         brandColor = Color.GREEN
+    }
+
+    override fun onItemClicked(
+        itemViewHolder: Presenter.ViewHolder?,
+        item: Any?,
+        rowViewHolder: RowPresenter.ViewHolder?,
+        row: Row?
+    ) {
+        var myItem =   item as SingleRowViewData
+        var itemData = item.name
+        var i = Intent(activity,DetailsActivity::class.java)
+        i.putExtra("key",itemData)
+        Toast.makeText(activity,"You clicked : " + itemData,Toast.LENGTH_LONG).show()
+        startActivity(i)
     }
 }
 

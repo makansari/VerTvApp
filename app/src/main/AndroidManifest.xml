@@ -28,6 +28,12 @@
         </intent-filter>
     </activity>
 
+        <activity android:name=".DetailsActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Leanback">
+
+                    </activity>
+
 
 
     </application>
